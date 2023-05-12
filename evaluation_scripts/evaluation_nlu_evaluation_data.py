@@ -108,42 +108,29 @@ def evaluate(predictions_file):
 
     print("Evaluation scores according to Vanzo et al. (2019):")
     print(
-        "Entity scores: P: {}, R: {}, F1: {}".format(
-            entity_precision, entity_recall, entity_f1
-        )
+        f"Entity scores: P: {entity_precision}, R: {entity_recall}, F1: {entity_f1}"
     )
     print(
-        "Intent scores: P: {}, R: {}, F1: {}".format(
-            intent_precision, intent_recall, intent_f1
-        )
+        f"Intent scores: P: {intent_precision}, R: {intent_recall}, F1: {intent_f1}"
     )
     print(
-        "Combined scores: P: {}, R: {}, F1: {}".format(
-            combined_precision, combined_recall, combined_f1
-        )
+        f"Combined scores: P: {combined_precision}, R: {combined_recall}, F1: {combined_f1}"
     )
 
     # open and read the file after the appending:
     directory = os.path.dirname(predictions_file)
-    f = open(os.path.join(directory, "nlu-evaluation-data-results.txt"), "w")
-    f.write(
-        "Entity scores: P: {}, R: {}, F1: {}".format(
-            entity_precision, entity_recall, entity_f1
+    with open(os.path.join(directory, "nlu-evaluation-data-results.txt"), "w") as f:
+        f.write(
+            f"Entity scores: P: {entity_precision}, R: {entity_recall}, F1: {entity_f1}"
         )
-    )
-    f.write("\n")
-    f.write(
-        "Intent scores: P: {}, R: {}, F1: {}".format(
-            intent_precision, intent_recall, intent_f1
+        f.write("\n")
+        f.write(
+            f"Intent scores: P: {intent_precision}, R: {intent_recall}, F1: {intent_f1}"
         )
-    )
-    f.write("\n")
-    f.write(
-        "Combined scores: P: {}, R: {}, F1: {}".format(
-            combined_precision, combined_recall, combined_f1
+        f.write("\n")
+        f.write(
+            f"Combined scores: P: {combined_precision}, R: {combined_recall}, F1: {combined_f1}"
         )
-    )
-    f.close()
 
 
 def read_results(file_name):
@@ -206,17 +193,16 @@ def run(folder_name):
     print(f"F: {i_acc_avg} +-{i_acc_deviation}")
 
     directory = os.path.dirname(folder_name)
-    f = open(os.path.join(directory, "results-on-complete-nlu-evaluation-data.txt"), "w")
-    f.write("Results for complete NLU Evaluation Dataset:\n")
-    f.write("Entity:\n")
-    f.write(f"P: {e_precision_avg} +-{e_precision_deviation}\n")
-    f.write(f"R: {e_recall_avg} +-{e_recall_deviation}\n")
-    f.write(f"F: {e_fscore_avg} +-{e_fscore_deviation}\n")
-    f.write("Intent:\n")
-    f.write(f"P: {i_acc_avg} +-{i_acc_deviation}\n")
-    f.write(f"R: {i_acc_avg} +-{i_acc_deviation}\n")
-    f.write(f"F: {i_acc_avg} +-{i_acc_deviation}\n")
-    f.close()
+    with open(os.path.join(directory, "results-on-complete-nlu-evaluation-data.txt"), "w") as f:
+        f.write("Results for complete NLU Evaluation Dataset:\n")
+        f.write("Entity:\n")
+        f.write(f"P: {e_precision_avg} +-{e_precision_deviation}\n")
+        f.write(f"R: {e_recall_avg} +-{e_recall_deviation}\n")
+        f.write(f"F: {e_fscore_avg} +-{e_fscore_deviation}\n")
+        f.write("Intent:\n")
+        f.write(f"P: {i_acc_avg} +-{i_acc_deviation}\n")
+        f.write(f"R: {i_acc_avg} +-{i_acc_deviation}\n")
+        f.write(f"F: {i_acc_avg} +-{i_acc_deviation}\n")
 
 
 if __name__ == "__main__":

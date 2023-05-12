@@ -62,12 +62,8 @@ def __splitTagType(tag):
     s = tag.split('-')
     if len(s) > 2 or len(s) == 0:
         raise ValueError('tag format wrong. it must be B-xxx.xxx')
-    if len(s) == 1:
-        tag = s[0]
-        tagType = ""
-    else:
-        tag = s[0]
-        tagType = s[1]
+    tagType = "" if len(s) == 1 else s[1]
+    tag = s[0]
     return tag, tagType
 
 
@@ -141,11 +137,7 @@ def computeF1Score(correct_slots, pred_slots):
             else:
                 correctChunk[lastCorrectType] = 1
 
-    if foundPredCnt > 0:
-        precision = 100*correctChunkCnt/foundPredCnt
-    else:
-        precision = 0
-
+    precision = 100*correctChunkCnt/foundPredCnt if foundPredCnt > 0 else 0
     if foundCorrectCnt > 0:
         recall = 100*correctChunkCnt/foundCorrectCnt
     else:
@@ -174,21 +166,12 @@ def evaluate(predictions_file):
     f1, precision, recall = computeF1Score(correct_slots, pred_slots)
 
     print("Evaluation scores according to Chen et al. (2019) and Goo et al.(2018):")
-    print(
-        "Entity scores: P: {}, R: {}, F1: {}".format(
-            precision, recall, f1
-        )
-    )
+    print(f"Entity scores: P: {precision}, R: {recall}, F1: {f1}")
 
     # open and read the file after the appending:
     directory = os.path.dirname(predictions_file)
-    f = open(os.path.join(directory, "atis-snips-results.txt"), "w")
-    f.write(
-        "Entity scores: P: {}, R: {}, F1: {}".format(
-            precision, recall, f1
-        )
-    )
-    f.close()
+    with open(os.path.join(directory, "atis-snips-results.txt"), "w") as f:
+        f.write(f"Entity scores: P: {precision}, R: {recall}, F1: {f1}")
 
 
 if __name__ == '__main__':
